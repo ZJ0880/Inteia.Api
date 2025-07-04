@@ -1,0 +1,60 @@
+## Archivos de compilación
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+## Archivos de usuario y configuración local
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+.vscode/
+
+## Archivos temporales y de caché
+*.tmp
+*.log
+*.bak
+*.cache
+*.dbmdl
+
+## Configuración de sistema operativo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+## Archivos de publicación
+publish/
+*.Publish.xml
+
+## Paquetes y dependencias
+packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+
+## Configuración de Rider o JetBrains
+.idea/
+
+## Secretos de entorno (si usas archivos .env para claves API, etc.)
+.env
+.env.*
+
+## Configuración de test
+TestResults/
+*.coverage
+*.coveragexml
+
+## Archivos de bloqueo para Visual Studio
+*.vspscc
+*.vssscc
+
+## Archivos generados por el diseñador
+*.Designer.cs
+
+## Archivos generados por Razor
+*.g.cs
+*.g.i.cs

@@ -1,0 +1,6 @@
+@EcosistemaAPI_HostAddress = http://localhost:5234
+
+GET {{EcosistemaAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
