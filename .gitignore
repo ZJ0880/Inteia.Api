@@ -1,60 +1,79 @@
-## Archivos de compilación
+############################
+# 🔧 Compilación y binarios
+############################
 bin/
 obj/
 *.exe
 *.dll
 *.pdb
-
-## Archivos de usuario y configuración local
-*.user
-*.suo
-*.userosscache
-*.sln.docstates
-*.vs/
-.vscode/
-
-## Archivos temporales y de caché
-*.tmp
-*.log
-*.bak
 *.cache
 *.dbmdl
 
-## Configuración de sistema operativo
-.DS_Store
-Thumbs.db
-ehthumbs.db
-desktop.ini
+############################
+# 🧪 Archivos de pruebas
+############################
+TestResults/
+*.coverage
+*.coveragexml
 
-## Archivos de publicación
-publish/
-*.Publish.xml
-
-## Paquetes y dependencias
+############################
+# 📦 Paquetes y dependencias
+############################
 packages/
 *.nupkg
 project.lock.json
 project.fragment.lock.json
 
-## Configuración de Rider o JetBrains
+############################
+# 🖥 Entornos de desarrollo
+############################
+
+# Visual Studio
+*.user
+*.suo
+*.vspscc
+*.vssscc
+*.sln.docstates
+.vs/
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains Rider
 .idea/
 
-## Secretos de entorno (si usas archivos .env para claves API, etc.)
+############################
+# 🌐 Publicación
+############################
+publish/
+*.Publish.xml
+
+############################
+# 🔒 Archivos de entorno / secretos
+############################
 .env
 .env.*
 
-## Configuración de test
-TestResults/
-*.coverage
-*.coveragexml
+############################
+# ⚙️ Archivos del sistema
+############################
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
 
-## Archivos de bloqueo para Visual Studio
-*.vspscc
-*.vssscc
+############################
+# 🧠 Archivos generados automáticamente
+############################
 
-## Archivos generados por el diseñador
+# Archivos generados por el diseñador de formularios
 *.Designer.cs
 
-## Archivos generados por Razor
+# Archivos generados por Razor
 *.g.cs
 *.g.i.cs
+
+# Archivos temporales y de logs
+*.tmp
+*.log
+*.bak
