@@ -1,6 +1,4 @@
-using Inteia.Api.Core;
-
-public class ComunidadTecNivel3 : BaseEntity
+public class ComunidadTecNivel3CreateDto
 {
     public string Sector { get; set; }
     public string Ubicacion1 { get; set; }
@@ -15,8 +13,5 @@ public class ComunidadTecNivel3 : BaseEntity
     public string Contacto1 { get; set; }
     public string Contacto2 { get; set; }
     public string Ctte { get; set; }
-
-    // FK a Nivel 2
     public string StartupId { get; set; }
-    public ComunidadTecNivel2? Startup { get; set; }
 }

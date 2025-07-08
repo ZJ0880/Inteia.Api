@@ -2,11 +2,11 @@ using Inteia.Api.Core;
 
 public class Consultor : BaseEntity
 {
-    public string Nombre { get; set; }
-    public string? Especialidad { get; set; }
-    public string? LinkedIn { get; set; }
-    public string? Twitter { get; set; }
-    public string? StartupUrl { get; set; }
-    public string? Email { get; set; }
-    public string? Telefono { get; set; }
+    public string EmpresaConsultora { get; set; }
+    public string AreasConsultoria { get; set; }
+    public string Servicios { get; set; }
+    public string Ciudad { get; set; }
+    public string Contacto { get; set; }
+    public string PaginaWeb { get; set; }
+    public string Notas { get; set; }
 }

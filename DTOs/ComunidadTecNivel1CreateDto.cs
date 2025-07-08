@@ -1,7 +1,4 @@
-using Inteia.Api.Core;
-using System.Collections.Generic;
-
-public class ComunidadTecNivel1 : BaseEntity
+public class ComunidadTecNivel1CreateDto
 {
     public string Nombre { get; set; }
     public string GratuitaOPagada { get; set; }
