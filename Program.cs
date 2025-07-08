@@ -22,6 +22,10 @@ builder.Services.AddSingleton(typeof(MongoRepository<>));
 builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
 builder.Services.AddScoped<IGenericService<Evento>, EventoService>();
 builder.Services.AddScoped<IGenericService<Vinculador>, VinculadorService>();
+builder.Services.AddScoped<IGenericService<ComunidadTecNivel1>, GenericService<ComunidadTecNivel1>>();
+builder.Services.AddScoped<IGenericService<ComunidadTecNivel2>, GenericService<ComunidadTecNivel2>>();
+builder.Services.AddScoped<IGenericService<ComunidadTecNivel3>, GenericService<ComunidadTecNivel3>>();
+builder.Services.AddScoped<IGenericService<Consultor>, GenericService<Consultor>>();
 builder.Services.AddScoped<IGenericService<Oportunidad>, OportunidadService>();
 
 // Servicios de autenticación
@@ -64,9 +68,20 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // ========== Middleware ==========
+// Swagger SIEMPRE antes de autenticación, CORS, etc.
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -76,7 +91,8 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 
-// Autenticación y autorización JWT
+app.UseCors("AllowAll");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
