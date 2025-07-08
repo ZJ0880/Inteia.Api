@@ -22,11 +22,16 @@ builder.Services.AddSingleton(typeof(MongoRepository<>));
 builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
 builder.Services.AddScoped<IGenericService<Evento>, EventoService>();
 builder.Services.AddScoped<IGenericService<Vinculador>, VinculadorService>();
+builder.Services.AddScoped<IGenericService<GrupoInvestigacion>, GrupoInvestigacionService>();
+builder.Services.AddScoped<IGenericService<ClasificacionGrupo>, ClasificacionGrupoService>();
+builder.Services.AddScoped<IGenericService<ProgramasColciencias>, ProgramasColcienciasService>();
+builder.Services.AddScoped<IGenericService<Convocatoria>, ConvocatoriaService>();
 builder.Services.AddScoped<IGenericService<ComunidadTecNivel1>, GenericService<ComunidadTecNivel1>>();
 builder.Services.AddScoped<IGenericService<ComunidadTecNivel2>, GenericService<ComunidadTecNivel2>>();
 builder.Services.AddScoped<IGenericService<ComunidadTecNivel3>, GenericService<ComunidadTecNivel3>>();
 builder.Services.AddScoped<IGenericService<Consultor>, GenericService<Consultor>>();
 builder.Services.AddScoped<IGenericService<Oportunidad>, OportunidadService>();
+
 
 // Servicios de autenticación
 builder.Services.AddScoped<IAuthService, AuthService>();
