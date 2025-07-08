@@ -26,6 +26,8 @@ builder.Services.AddScoped<IGenericService<ComunidadTecNivel1>, GenericService<C
 builder.Services.AddScoped<IGenericService<ComunidadTecNivel2>, GenericService<ComunidadTecNivel2>>();
 builder.Services.AddScoped<IGenericService<ComunidadTecNivel3>, GenericService<ComunidadTecNivel3>>();
 builder.Services.AddScoped<IGenericService<Consultor>, GenericService<Consultor>>();
+builder.Services.AddScoped<IGenericService<Oportunidad>, OportunidadService>();
+
 // Servicios de autenticación
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
