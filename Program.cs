@@ -22,6 +22,7 @@ builder.Services.AddSingleton(typeof(MongoRepository<>));
 builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
 builder.Services.AddScoped<IGenericService<Evento>, EventoService>();
 builder.Services.AddScoped<IGenericService<Vinculador>, VinculadorService>();
+builder.Services.AddScoped<IGenericService<Oportunidad>, OportunidadService>();
 
 // Servicios de autenticación
 builder.Services.AddScoped<IAuthService, AuthService>();
