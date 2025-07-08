@@ -2,6 +2,8 @@ using Inteia.Api.Core;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using MongoDB.Bson;
+using Microsoft.AspNetCore.Mvc;
+
 
 
 namespace Inteia.Api.Core;
@@ -83,9 +85,10 @@ public abstract class GenericController<T> : ControllerBase where T : BaseEntity
 
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, T entity)
+    public async Task<IActionResult> Put(string id, [FromBody] T entity)
     {
-        if (id != Guid.Parse(entity.Id)) return BadRequest();
+         if (entity == null || id != entity.Id)
+        return BadRequest("El id no coincide o el objeto es nulo.");
         await _service.UpdateAsync(entity);
         return NoContent();
     }
