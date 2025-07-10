@@ -11,6 +11,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // ========== Configuraciones ==========
+
 builder.Services.Configure<MongoDBSettings>(
     builder.Configuration.GetSection("MongoDBSettings"));
 
@@ -18,8 +19,10 @@ builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("JwtSettings"));
 
 // ========== Inyección de dependencias ==========
+
 builder.Services.AddSingleton(typeof(MongoRepository<>));
 builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
+
 builder.Services.AddScoped<IGenericService<Evento>, EventoService>();
 builder.Services.AddScoped<IGenericService<Vinculador>, VinculadorService>();
 builder.Services.AddScoped<IGenericService<GrupoInvestigacion>, GrupoInvestigacionService>();
@@ -32,6 +35,8 @@ builder.Services.AddScoped<IGenericService<ComunidadTecNivel3>, GenericService<C
 builder.Services.AddScoped<IGenericService<Consultor>, GenericService<Consultor>>();
 builder.Services.AddScoped<IGenericService<Oportunidad>, OportunidadService>();
 
+// Agregado: Servicio de usuarios (CRUD)
+builder.Services.AddScoped<UsuarioService>();
 
 // Servicios de autenticación
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -86,12 +91,12 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // ========== Middleware ==========
-// Swagger SIEMPRE antes de autenticación, CORS, etc.
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Inteia API V1");
-    c.RoutePrefix = string.Empty; 
+    c.RoutePrefix = string.Empty;
 });
 
 app.UseHttpsRedirection();
