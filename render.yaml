@@ -16,3 +16,4 @@ services:
         value: Usuarios
       - key: JWT_SECRET
         value: TuClaveSuperSeguraYSecreta_1234567890
+
