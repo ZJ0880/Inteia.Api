@@ -1,4 +1,3 @@
----
 services:
   - type: web
     name: inteia-api
@@ -7,16 +6,13 @@ services:
     buildCommand: dotnet publish -c Release -o out
     startCommand: dotnet out/EcosistemaAPI.dll
     plan: free
+    region: oregon
     envVars:
       - key: MONGO_CONN_STRING
-        value: >
-          mongodb+srv://karolopez1010:0XqKdPGNNVh6Zzed@cluster0.eiftxze.mongodb.net/
-          ?retryWrites=true&w=majority&appName=Cluster0
+        value: mongodb+srv://karolopez1010:0XqKdPGNNVh6Zzed@cluster0.eiftxze.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
       - key: MONGO_DB_NAME
         value: inteiaDB
       - key: MONGO_COLLECTION
         value: Usuarios
       - key: JWT_SECRET
         value: TuClaveSuperSeguraYSecreta_1234567890
-
-
