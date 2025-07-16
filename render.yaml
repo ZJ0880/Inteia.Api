@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: inteia-api
+    name: inteia-api2
     repo: https://github.com/ZJ0880/Inteia.Api
     branch: main
     buildCommand: dotnet publish -c Release -o out
