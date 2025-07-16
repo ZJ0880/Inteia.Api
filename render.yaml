@@ -1,13 +1,12 @@
 ---
 services:
-  - name: inteia-api
+  - type: web
+    name: inteia-api
     repo: https://github.com/ZJ0880/Inteia.Api
     branch: main
     buildCommand: dotnet publish -c Release -o out
     startCommand: dotnet out/EcosistemaAPI.dll
     plan: free
-    env: web
-    region: oregon
     envVars:
       - key: MONGO_CONN_STRING
         value: >
