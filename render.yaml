@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: inteia-api
+    name: inteia-api-v2  # ⚠️ cambia este nombre
     repo: https://github.com/ZJ0880/Inteia.Api
     branch: main
     buildCommand: dotnet publish -c Release -o out
@@ -8,4 +8,11 @@ services:
     plan: free
     region: oregon
     envVars:
-      ...
+      - key: MONGO_CONN_STRING
+        value: mongodb+srv://karolopez1010:0XqKdPGNNVh6Zzed@cluster0.eiftxze.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - key: MONGO_DB_NAME
+        value: inteiaDB
+      - key: MONGO_COLLECTION
+        value: Usuarios
+      - key: JWT_SECRET
+        value: TuClaveSuperSeguraYSecreta_1234567890
