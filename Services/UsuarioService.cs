@@ -1,5 +1,6 @@
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
+using Inteia.Api.Models;
 using Inteia.Api.Configurations;
 
 public class UsuarioService
@@ -8,33 +9,30 @@ public class UsuarioService
 
     public UsuarioService(IOptions<MongoDBSettings> settings)
     {
-        var config = settings.Value;
-
-        if (string.IsNullOrWhiteSpace(config.UsuariosCollection))
-        {
-            throw new ArgumentException("El nombre de la colección de usuarios no puede ser nulo o vacío.", nameof(config.UsuariosCollection));
-        }
-
-        var client = new MongoClient(config.ConnectionString);
-        var database = client.GetDatabase(config.DatabaseName);
-        _usuarios = database.GetCollection<Usuario>(config.UsuariosCollection);
+        var client = new MongoClient(settings.Value.ConnectionString);
+        var database = client.GetDatabase(settings.Value.DatabaseName);
+        _usuarios = database.GetCollection<Usuario>(settings.Value.UsuariosCollection);
     }
 
-    public List<Usuario> Get() =>
-        _usuarios.Find(usuario => true).ToList();
+    public async Task<List<Usuario>> GetAsync() =>
+        await _usuarios.Find(usuario => usuario.IsActive).ToListAsync();
 
-    public Usuario Get(string id) =>
-        _usuarios.Find(usuario => usuario.Id == id).FirstOrDefault();
+    public async Task<Usuario> GetByIdAsync(string id) =>
+        await _usuarios.Find(usuario => usuario.Id == id && usuario.IsActive).FirstOrDefaultAsync();
 
-    public void Update(string id, Usuario usuarioIn) =>
-        _usuarios.ReplaceOne(usuario => usuario.Id == id, usuarioIn);
-
-    public void Delete(string id) =>
-        _usuarios.DeleteOne(usuario => usuario.Id == id);
-
-    public void Deactivate(string id)
+    public async Task CreateAsync(Usuario usuario)
     {
+        usuario.IsActive = true;
+        await _usuarios.InsertOneAsync(usuario);
+    }
+
+    public async Task UpdateAsync(string id, Usuario usuarioIn) =>
+        await _usuarios.ReplaceOneAsync(usuario => usuario.Id == id, usuarioIn);
+
+    public async Task DeleteAsync(string id)
+    {
+        var filter = Builders<Usuario>.Filter.Eq(u => u.Id, id);
         var update = Builders<Usuario>.Update.Set(u => u.IsActive, false);
-        _usuarios.UpdateOne(u => u.Id == id, update);
+        await _usuarios.UpdateOneAsync(filter, update);
     }
 }

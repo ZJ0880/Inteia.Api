@@ -13,7 +13,7 @@ public class TokenService : ITokenService
         _jwtSettings = options.Value;
     }
 
-    public string GenerateToken(string email, string userId)
+    public string GenerateToken(string email)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -21,7 +21,6 @@ public class TokenService : ITokenService
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, email),
-            new Claim("userId", userId),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
