@@ -36,7 +36,9 @@ builder.Services.AddScoped<IGenericService<Consultor>, GenericService<Consultor>
 builder.Services.AddScoped<IGenericService<Oportunidad>, OportunidadService>();
 
 // Agregado: Servicio de usuarios (CRUD)
+builder.Services.AddScoped<UsuarioLoginService>();
 builder.Services.AddScoped<UsuarioService>();
+
 
 // Servicios de autenticación
 builder.Services.AddScoped<IAuthService, AuthService>();

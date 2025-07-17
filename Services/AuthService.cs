@@ -26,7 +26,6 @@ public class AuthService : IAuthService
 
         var usuario = new Usuario
         {
-            Name = request.Name,
             IsActive = true
         };
 
@@ -36,7 +35,6 @@ public class AuthService : IAuthService
         {
             Email = request.Email,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
-            UsuarioId = usuario.Id,
             IsActive = true,
             CreationDate = DateTime.UtcNow
         };
@@ -62,7 +60,7 @@ public class AuthService : IAuthService
         if (login == null || !BCrypt.Net.BCrypt.Verify(request.Password, login.PasswordHash))
             return null;
 
-        return _tokenService.GenerateToken(login.Email, login.UsuarioId);
+        return _tokenService.GenerateToken(login.Email);
     }
 
 }
