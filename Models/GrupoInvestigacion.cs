@@ -16,9 +16,9 @@ public class GrupoInvestigacion : BaseEntity
     public string UsuarioCreacion { get; set; }
     public string UsuarioModificacion { get; set; }
     public DateTime? FechaModificacion { get; set; }
-    public string UbicacionId { get; set; } // Relación Ubicacion
-    public List<string> ActoresCTIIds { get; set; } = new(); // Relación ActoresCTI
-    
+    public string UbicacionId { get; set; }= string.Empty;// Relación Ubicacion
+    public string ActoresCTIIds { get; set; } = string.Empty; // Relación ActoresCTI
+
     }
 
 

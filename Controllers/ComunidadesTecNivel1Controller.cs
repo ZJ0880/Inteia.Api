@@ -1,6 +1,7 @@
 using Inteia.Api.Core;
 using Microsoft.AspNetCore.Mvc;
 
+
 [ApiController]
 [Route("api/[controller]")]
 public class ComunidadesTecNivel1Controller : ControllerBase
@@ -36,6 +37,7 @@ public class ComunidadesTecNivel1Controller : ControllerBase
             Contactos = dto.Contactos
         };
         await _service.AddAsync(entity);
+        // Return a 201 Created response with the location of the new resource.
         return Created(string.Empty, entity);
     }
 
