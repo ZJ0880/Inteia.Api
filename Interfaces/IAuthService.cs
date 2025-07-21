@@ -1,7 +1,14 @@
-using Inteia.Api.Core;
-public interface IAuthService
+using System.Threading.Tasks;
+using Inteia.Api.DTOs;
+
+
+namespace Inteia.Api.Services.Interfaces
 {
-    Task<bool> RegisterAsync(RegisterRequest request);
-    Task<bool> LoginAsync(LoginRequest request);
-    Task<string?> LoginAndGenerateTokenAsync(LoginRequest request);
+    public interface IAuthService
+    {
+        Task<bool> RegisterAsync(RegisterRequest request);
+        Task<string?> LoginAndGenerateTokenAsync(LoginRequest request);
+    }
 }
+
+

@@ -1,68 +1,62 @@
-using MongoDB.Driver;
 using Inteia.Api.Configurations;
+using Inteia.Api.DTOs;
+using Inteia.Api.Models;
+using Inteia.Api.Services.Interfaces;
 using Microsoft.Extensions.Options;
-using Inteia.Api.Core;
+using MongoDB.Driver;
+using System.Security.Cryptography;
+using System.Text;
 
-public class AuthService : IAuthService
+namespace Inteia.Api.Services
 {
-    private readonly IMongoCollection<Usuario> _usuarios;
-    private readonly IMongoCollection<UsuarioLogin> _usuariosLogin;
-    private readonly ITokenService _tokenService;
-
-    public AuthService(IOptions<MongoDBSettings> settings, ITokenService tokenService)
+    public class AuthService : IAuthService
     {
-        var client = new MongoClient(settings.Value.ConnectionString);
-        var database = client.GetDatabase(settings.Value.DatabaseName);
+        private readonly IMongoCollection<Usuario> _usuarios;
+        private readonly ITokenService _tokenService;
 
-        _usuarios = database.GetCollection<Usuario>("Usuarios");
-        _usuariosLogin = database.GetCollection<UsuarioLogin>("UsuariosLogin");
-        _tokenService = tokenService;
-    }
-
-    public async Task<bool> RegisterAsync(RegisterRequest request)
-    {
-        var existingLogin = await _usuariosLogin.Find(x => x.Email == request.Email).FirstOrDefaultAsync();
-        if (existingLogin != null) return false;
-
-        var usuario = new Usuario
+        public AuthService(IOptions<MongoDBSettings> mongoSettings, ITokenService tokenService)
         {
-            Name = request.Name,
-            IsActive = true
-        };
+            var client = new MongoClient(mongoSettings.Value.ConnectionString);
+            var database = client.GetDatabase(mongoSettings.Value.DatabaseName);
+            _usuarios = database.GetCollection<Usuario>("Usuarios");
+            _tokenService = tokenService;
+        }
 
-        await _usuarios.InsertOneAsync(usuario);
-
-        var usuarioLogin = new UsuarioLogin
+        public async Task<bool> RegisterAsync(RegisterRequest request)
         {
-            Email = request.Email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
-            UsuarioId = usuario.Id,
-            IsActive = true,
-            CreationDate = DateTime.UtcNow
-        };
+            var existingUser = await _usuarios.Find(u => u.Correo == request.Correo).FirstOrDefaultAsync();
+            if (existingUser != null) return false;
 
-        await _usuariosLogin.InsertOneAsync(usuarioLogin);
-        return true;
+            var nuevoUsuario = new Usuario
+            {
+                Nombre = request.Nombre,
+                Ciudad = request.Ciudad,
+                Direccion = request.Direccion,
+                Telefono = request.Telefono,
+                Correo = request.Correo,
+                Web = request.Web,
+                
+            };
+
+            await _usuarios.InsertOneAsync(nuevoUsuario);
+            return true;
+        }
+
+        public async Task<string?> LoginAndGenerateTokenAsync(LoginRequest request)
+        {
+            var usuario = await _usuarios.Find(u => u.Correo == request.Correo).FirstOrDefaultAsync();
+
+            if (usuario == null || usuario.Contrasena != HashPassword(request.Contrasena))
+                return null;
+
+            return _tokenService.GenerateToken(usuario);
+        }
+
+        private string HashPassword(string password)
+        {
+            using var sha256 = SHA256.Create();
+            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return Convert.ToBase64String(hashedBytes);
+        }
     }
-
-    public async Task<bool> LoginAsync(LoginRequest request)
-    {
-        var login = await _usuariosLogin.Find(x => x.Email == request.Email && x.IsActive).FirstOrDefaultAsync();
-
-        if (login == null)
-            return false;
-
-        return BCrypt.Net.BCrypt.Verify(request.Password, login.PasswordHash);
-    }
-
-    public async Task<string?> LoginAndGenerateTokenAsync(LoginRequest request)
-    {
-        var login = await _usuariosLogin.Find(x => x.Email == request.Email && x.IsActive).FirstOrDefaultAsync();
-
-        if (login == null || !BCrypt.Net.BCrypt.Verify(request.Password, login.PasswordHash))
-            return null;
-
-        return _tokenService.GenerateToken(login.Email, login.UsuarioId);
-    }
-
 }

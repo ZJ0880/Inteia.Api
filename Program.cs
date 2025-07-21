@@ -31,11 +31,16 @@ builder.Services.AddScoped<IGenericService<ComunidadTecNivel2>, GenericService<C
 builder.Services.AddScoped<IGenericService<ComunidadTecNivel3>, GenericService<ComunidadTecNivel3>>();
 builder.Services.AddScoped<IGenericService<Consultor>, GenericService<Consultor>>();
 builder.Services.AddScoped<IGenericService<Oportunidad>, OportunidadService>();
+builder.Services.AddSingleton<EntidadRelacionadoraService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+
 
 
 // Servicios de autenticación
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<EntidadRelacionadoraService>();
 
 // ========== Configuración JWT ==========
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();

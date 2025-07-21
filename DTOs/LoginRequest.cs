@@ -1,4 +1,4 @@
-namespace Inteia.Api.Core
+namespace Inteia.Api.DTOs
 {
     public class LoginRequest
     {

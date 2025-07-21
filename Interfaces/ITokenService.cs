@@ -1,4 +1,8 @@
-public interface ITokenService
+// Services/Interfaces/ITokenService.cs
+namespace Inteia.Api.Services.Interfaces
 {
-    string GenerateToken(string email, string userId);
+    public interface ITokenService
+    {
+        string GenerateToken(string email);
+    }
 }

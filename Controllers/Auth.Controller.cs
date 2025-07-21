@@ -1,5 +1,9 @@
 using Inteia.Api.Core;
 using Microsoft.AspNetCore.Mvc;
+using Inteia.Api.Services.Interfaces;
+using Inteia.Api.DTOs;
+
+
 
 [ApiController]
 [Route("api/[controller]")]
@@ -32,5 +36,6 @@ public class AuthController : ControllerBase
             message = "Login exitoso",
             token = token
         });
+
     }
 }

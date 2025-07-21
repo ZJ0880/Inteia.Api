@@ -1,5 +1,4 @@
 using Inteia.Api.Core;
-using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using MongoDB.Bson;
 using Microsoft.AspNetCore.Mvc;
