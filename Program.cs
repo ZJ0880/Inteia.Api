@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Inteia.Api.Interfaces;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,13 @@ builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("JwtSettings"));
 
 // ========== Inyección de dependencias ==========
+
+// Registro de MongoDB
+builder.Services.AddSingleton<IMongoClient>(sp =>
+    new MongoClient(builder.Configuration.GetSection("MongoDBSettings:ConnectionString").Value));
+builder.Services.AddScoped<IMongoDatabase>(sp =>
+    sp.GetRequiredService<IMongoClient>().GetDatabase(
+        builder.Configuration.GetSection("MongoDBSettings:DatabaseName").Value));
 
 builder.Services.AddSingleton(typeof(MongoRepository<>));
 builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
@@ -39,10 +48,15 @@ builder.Services.AddScoped<IGenericService<Oportunidad>, OportunidadService>();
 builder.Services.AddScoped<UsuarioLoginService>();
 builder.Services.AddScoped<UsuarioService>();
 
+// Servicio ActoresCTI
+builder.Services.AddScoped<IActoresCTIService, ActoresCTIService>();
 
 // Servicios de autenticación
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+// Agregado: Servicio de ubicaciones
+builder.Services.AddScoped<IUbicacionService, UbicacionService>();
 
 // ========== Configuración JWT ==========
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
