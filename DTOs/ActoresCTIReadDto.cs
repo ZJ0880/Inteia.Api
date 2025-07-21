@@ -13,7 +13,7 @@ namespace Inteia.Api.DTOs
         public DateTime? FechaExpedicion { get; set; }
         public DateTime? FechaNotificacion { get; set; }
         public DateTime? VigenciaHasta { get; set; }
-        public string? UbicacionId { get; set; }
-        public string? GrupoInvestigacionId { get; set; } // Relación con GrupoInvestigacion
+        public string? InteresInteia { get; set; }
+        public string GrupoInvestigacionId { get; set; } // Relación con GrupoInvestigacion
     }
 }

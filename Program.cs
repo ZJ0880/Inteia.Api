@@ -34,7 +34,7 @@ builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
 
 builder.Services.AddScoped<IGenericService<Evento>, EventoService>();
 builder.Services.AddScoped<IGenericService<Vinculador>, VinculadorService>();
-builder.Services.AddScoped<IGenericService<GrupoInvestigacion>, GrupoInvestigacionService>();
+builder.Services.AddScoped<IGenericService<GrupoInvestigacion>, GenericService<GrupoInvestigacion>>();
 builder.Services.AddScoped<IGenericService<ClasificacionGrupo>, ClasificacionGrupoService>();
 builder.Services.AddScoped<IGenericService<ProgramasColciencias>, ProgramasColcienciasService>();
 builder.Services.AddScoped<IGenericService<Convocatoria>, ConvocatoriaService>();
@@ -49,14 +49,14 @@ builder.Services.AddScoped<UsuarioLoginService>();
 builder.Services.AddScoped<UsuarioService>();
 
 // Servicio ActoresCTI
-builder.Services.AddScoped<IActoresCTIService, ActoresCTIService>();
+builder.Services.AddScoped<IGenericService<ActoresCTI>, GenericService<ActoresCTI>>();
 
 // Servicios de autenticación
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 // Agregado: Servicio de ubicaciones
-builder.Services.AddScoped<IUbicacionService, UbicacionService>();
+builder.Services.AddScoped<IGenericService<Ubicacion>, GenericService<Ubicacion>>();
 
 // ========== Configuración JWT ==========
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();

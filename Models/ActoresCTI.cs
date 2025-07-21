@@ -4,6 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 public class ActoresCTI : BaseEntity
 {
+    public string InteresInteia { get; set; }
     public string NombreEntidad { get; set; }
     public string NombreActor { get; set; }
     public string ReconocidoComo { get; set; }
@@ -14,6 +15,5 @@ public class ActoresCTI : BaseEntity
     public DateTime? FechaExpedicion { get; set; }
     public DateTime? FechaNotificacion { get; set; }
     public DateTime? VigenciaHasta { get; set; }
-    public string UbicacionId { get; set; } // Relación con Ubicacion
-    public string? GrupoInvestigacionId { get; set; } // Relación con GrupoInvestigacion
+    public string GrupoInvestigacionId { get; set; } // Relación obligatoria con GrupoInvestigacion
 }
