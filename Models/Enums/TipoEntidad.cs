@@ -1,5 +1,5 @@
 // Enums/TipoEntidad.cs
-namespace Inteia.Api.Enums;
+namespace Inteia.Api.Models.Enums;
 
 public enum TipoEntidad
 {

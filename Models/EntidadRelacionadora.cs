@@ -1,5 +1,5 @@
 // Models/EntidadRelacionadora.cs
-using Inteia.Api.Enums;
+using Inteia.Api.Models.Enums;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Inteia.Api.Core;

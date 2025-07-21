@@ -1,6 +1,5 @@
 using Inteia.Api.Models;
 using System.ComponentModel.DataAnnotations;
-using Inteia.Api.Models;
 using Inteia.Api.Models.Enums;
 
 
