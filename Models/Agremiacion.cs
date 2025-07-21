@@ -1,13 +1,6 @@
 using Inteia.Api.Core;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using Inteia.Api.Models;
 
-public enum TipoVinculador
-{
-    Ninguno,
-    CamaraDeComercio,
-    Agremiacion
-}
 
 public class Agremiacion : BaseEntity
 {
