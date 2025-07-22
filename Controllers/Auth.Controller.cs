@@ -27,10 +27,20 @@ public class AuthController : ControllerBase
         if (token == null)
             return Unauthorized("Credenciales inválidas");
 
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = false, 
+            Secure = Request.IsHttps,
+            SameSite = SameSiteMode.Lax, 
+            Expires = DateTime.UtcNow.AddDays(1),
+            Path = "/"
+        };
+
+        Response.Cookies.Append("token", token, cookieOptions);
+
         return Ok(new
         {
-            message = "Login exitoso",
-            token = token
+            message = "Login exitoso"
         });
     }
 }
