@@ -11,6 +11,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // ========== Configuraciones ==========
+
 builder.Services.Configure<MongoDBSettings>(
     builder.Configuration.GetSection("MongoDBSettings"));
 
@@ -18,8 +19,10 @@ builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("JwtSettings"));
 
 // ========== Inyección de dependencias ==========
+
 builder.Services.AddSingleton(typeof(MongoRepository<>));
 builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
+
 builder.Services.AddScoped<IGenericService<Evento>, EventoService>();
 builder.Services.AddScoped<IGenericService<Vinculador>, VinculadorService>();
 builder.Services.AddScoped<IGenericService<GrupoInvestigacion>, GrupoInvestigacionService>();
@@ -36,6 +39,10 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 
+// Agregado: Servicio de usuarios (CRUD)
+builder.Services.AddScoped<UsuarioLoginService>();
+builder.Services.AddScoped<UsuarioService>();
+
 
 // Servicios de autenticación
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -44,6 +51,12 @@ builder.Services.AddScoped<EntidadRelacionadoraService>();
 
 // ========== Configuración JWT ==========
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+
+if (jwtSettings == null || string.IsNullOrEmpty(jwtSettings.SecretKey))
+{
+    throw new InvalidOperationException();
+}
+
 var key = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
 
 builder.Services.AddAuthentication(options =>
@@ -91,12 +104,12 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // ========== Middleware ==========
-// Swagger SIEMPRE antes de autenticación, CORS, etc.
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Inteia API V1");
-    c.RoutePrefix = string.Empty; 
+    c.RoutePrefix = string.Empty;
 });
 
 app.UseHttpsRedirection();
