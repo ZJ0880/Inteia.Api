@@ -104,7 +104,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
+        policy.WithOrigins(
+            "http://localhost:4200",
+            "https://wonderful-horse-c398ca.netlify.app"
+         )
               .AllowCredentials()
               .AllowAnyHeader()
               .AllowAnyMethod();
