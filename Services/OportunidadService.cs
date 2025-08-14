@@ -1,8 +1,6 @@
 using Inteia.Api.Core;
 using Inteia.Api.Models;
-using System.Diagnostics;
 using System.Linq.Expressions;
-using System.Text.Json;
 
 namespace Inteia.Api.Services
 {
@@ -15,39 +13,35 @@ namespace Inteia.Api.Services
             ? _ => true
             : o => o.idProceso.Contains(text) || o.descripcion.Contains(text) || o.departamento.Contains(text);
 
-        public async Task<object?> WebScrapingAsync(string parametro)
+        public async Task<object?> WebScrapingAsyncSimulado(
+            List<string> enlaces,
+            int cantidad,
+            string fechaInicio,
+            string fechaLimite)
         {
-            string pythonPath = "python3"; 
-            string scriptPath = Path.Combine(AppContext.BaseDirectory, "Scripts", "script.py");
+            var resultados = new List<object>();
+            var random = new Random();
 
-            var psi = new ProcessStartInfo
+            foreach (var enlace in enlaces)
             {
-                FileName = pythonPath,
-                Arguments = $"\"{scriptPath}\" \"{parametro}\"",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
+                for (int i = 0; i < cantidad; i++)
+                {
+                    bool esPostulable = random.Next(0, 2) == 1;
 
-            using var process = new Process { StartInfo = psi };
-            process.Start();
-
-            string output = await process.StandardOutput.ReadToEndAsync();
-            string error = await process.StandardError.ReadToEndAsync();
-            process.WaitForExit();
-
-            if (!string.IsNullOrEmpty(error))
-                throw new Exception($"Error ejecutando script Python: {error}");
-
-            try
-            {
-                return JsonSerializer.Deserialize<object>(output);
+                    resultados.Add(new
+                    {
+                        descripcion = $"Oportunidad  {i + 1} para {enlace}",
+                        esPostulable = esPostulable,
+                        motivoPostulable = esPostulable ? "Cumple requisitos " : null,
+                        motivoNoPostulable = !esPostulable ? "No cumple requisitos " : null,
+                        codigo = $"COD-{random.Next(1000, 9999)}",
+                        fuente = enlace,
+                        fechaInicio,
+                        fechaLimite
+                    });
+                }
             }
-            catch (JsonException ex)
-            {
-                throw new Exception("El script Python no devolvió un JSON válido", ex);
-            }
+            return resultados;
         }
     }
 }

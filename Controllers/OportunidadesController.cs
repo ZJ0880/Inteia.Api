@@ -17,13 +17,18 @@ namespace Inteia.Api.Controllers
             _oportunidadService = (OportunidadService)service;
         }
 
-
-        [HttpGet("scraping")]
-        public async Task<IActionResult> EjecutarScraping([FromQuery] string parametro)
+        [HttpPost("scraping-simulado")]
+        public async Task<IActionResult> EjecutarScrapingSimulado([FromBody] ScrapingRequest request)
         {
             try
             {
-                var resultado = await _oportunidadService.WebScrapingAsync(parametro);
+                var resultado = await _oportunidadService.WebScrapingAsyncSimulado(
+                    request.Enlaces,
+                    request.Cantidad,
+                    request.FechaInicio,
+                    request.FechaLimite
+                );
+
                 return Ok(resultado);
             }
             catch (Exception ex)
@@ -31,5 +36,12 @@ namespace Inteia.Api.Controllers
                 return StatusCode(500, new { error = ex.Message });
             }
         }
+    }
+    public class ScrapingRequest
+    {
+        public List<string> Enlaces { get; set; } = new();
+        public int Cantidad { get; set; }
+        public string FechaInicio { get; set; } = string.Empty;
+        public string FechaLimite { get; set; } = string.Empty;
     }
 }
